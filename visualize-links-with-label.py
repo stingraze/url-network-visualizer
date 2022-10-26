@@ -1,4 +1,4 @@
-#(C)Tsubasa Kato at Inspire Search Corporation 2022/7/14.
+#(C)Tsubasa Kato at Inspire Search Corporation 2022/10/23 17:30PM.
 #Some codes from: https://medium.com/@dakarabas/how-to-easily-visualize-your-internal-links-with-python-4467ef1e8c4d
 import httplib2
 from bs4 import BeautifulSoup
@@ -17,11 +17,15 @@ for link_to_crawl in list_urls:
     response = http.request(link_to_crawl)
     soup = BeautifulSoup(str(response), "html.parser")
     for link in soup.findAll('a'):
+#if statement that handles error.
+        if (link.get('href') == None):
+                continue
         links_with_text.append([link_to_crawl, link.get('href')])
-        print(link_to_crawl + " -> " + link.get('href'))
+        print(link_to_crawl + " -> " + str(link.get('href')))
 
 
 df = pd.DataFrame(links_with_text, columns=["from", "to"])
+df = df.dropna(how='all').dropna(how='all', axis=1)
 
 GA = nx.from_pandas_edgelist(df, source="from", target="to")
 plt.figure(2)
