@@ -1,3 +1,5 @@
+#(C)Tsubasa Kato at Inspire Search Corporation 2023/4/12 
+#Script modification made with the help of OpenAI ChatGPT GPT-4.
 import httplib2
 from bs4 import BeautifulSoup
 import pandas as pd
